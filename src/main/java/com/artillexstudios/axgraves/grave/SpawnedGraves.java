@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.Arrays;
@@ -83,7 +84,7 @@ public class SpawnedGraves {
         File file = new File(AxGraves.getInstance().getDataFolder(), "data.json");
         try (FileReader fw = new FileReader(file)) {
             array = gson.fromJson(fw, JsonArray.class);
-        } catch (java.io.FileNotFoundException ex) {
+        } catch (FileNotFoundException ex) {
             Bukkit.getLogger().info("[AxGraves] No saved graves to load (this is normal on first run)");
             return;
         } catch (Exception ex) {

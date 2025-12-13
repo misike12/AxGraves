@@ -87,7 +87,6 @@ public final class AxGraves extends AxPlugin {
         if (CONFIG.getBoolean("save-graves.enabled", true)) {
             try {
                 SpawnedGraves.loadFromFile();
-                getLogger().info("Loaded saved graves from file");
             } catch (Exception e) {
                 getLogger().warning("Failed to load saved graves: " + e.getMessage());
                 e.printStackTrace();
