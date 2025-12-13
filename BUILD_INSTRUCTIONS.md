@@ -17,7 +17,7 @@ mvn clean package
 ```
 
 This will:
-1. Download dependencies (axapi 1.6.0, spigot-api 1.21.3)
+1. Download dependencies (axapi 1.4.813, spigot-api 1.21.3)
 2. Compile the source code
 3. Run the shade plugin to relocate dependencies
 4. Create the final JAR in `target/AxGraves-1.24.0.jar`
@@ -36,15 +36,13 @@ mvn clean package -o
 
 ## Dependency Notes
 
-### axapi 1.6.0
+### axapi 1.4.813 (Current Version)
 - **Purpose**: Core API library for packet entities, holograms, and NMS handling
-- **Critical for**: Minecraft 1.21.11 compatibility
+- **Version**: 1.4.813 (currently used)
 - **Shaded into**: `com.artillexstudios.axgraves.libs.axapi`
-- **Repository**: https://repo.artillex-studios.com/releases/
+- **Repository**: https://repo.artillex-studios.com/#/releases/com/artillexstudios/axapi/api/axapi/1.4.813
 
-If axapi 1.6.0 is not yet available, you may need to:
-1. Contact Artillex Studios for the updated version
-2. Or temporarily use version 1.4.803 (but this will not fix MC 1.21.11 compatibility)
+**Note**: Version 1.6.0 with full Minecraft 1.21.11 compatibility is not yet available in the repository. The project currently uses 1.4.813, which is the latest published version.
 
 ### spigot-api 1.21.3-R0.1-SNAPSHOT
 - **Purpose**: Minecraft server API
@@ -62,14 +60,14 @@ If axapi 1.6.0 is not yet available, you may need to:
 3. Check Maven settings.xml for proxy configuration
 4. Try clearing Maven cache: `rm -rf ~/.m2/repository/com/artillexstudios/axapi`
 
-### Issue: "axapi version 1.6.0 not found"
-**Cause**: The axapi version may not be released yet
+### Issue: "axapi version not found"
+**Cause**: The axapi version specified in pom.xml is not available in the repository
 
 **Solutions**:
-1. Check with Artillex Studios if 1.6.0 is available
-2. Try alternative versions: 1.5.x, 1.6.x series
-3. Check the repository for available versions:
-   - Browse: https://repo.artillex-studios.com/releases/com/artillexstudios/axapi/axapi/
+1. The project currently uses version 1.4.813 which is available
+2. If you need a different version, check the repository for available versions:
+   - Browse: https://repo.artillex-studios.com/#/releases/com/artillexstudios/axapi/api/axapi/
+3. Version 1.6.0 with full MC 1.21.11 compatibility is planned but not yet published
 
 ### Issue: "spigot-api 1.21.3 not found"  
 **Cause**: The specific version may not be available yet
