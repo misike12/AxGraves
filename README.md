@@ -22,8 +22,16 @@ If you're running Minecraft 1.21.11 or later, this update includes:
 
 See [MINECRAFT_1.21_COMPATIBILITY.md](MINECRAFT_1.21_COMPATIBILITY.md) for technical details.
 
+### Downloading Pre-built Releases
+Pre-built plugin JARs are available for download:
+- **Stable Releases**: Download from the [Releases page](https://github.com/misike12/AxGraves/releases)
+- **Development Builds**: Download from the [Actions tab](https://github.com/misike12/AxGraves/actions) (requires GitHub login)
+
+All builds are automatically compiled and tested using GitHub Actions with Java 21.
+
 ### Building from Source
 See [BUILD_INSTRUCTIONS.md](BUILD_INSTRUCTIONS.md) for build instructions and requirements.
+For information about automated builds, see [.github/workflows/README.md](.github/workflows/README.md).
 
 ### Changelog
 See [CHANGES_SUMMARY.md](CHANGES_SUMMARY.md) for a complete list of changes in this update.
