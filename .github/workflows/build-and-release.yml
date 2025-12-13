@@ -48,7 +48,6 @@ jobs:
           retention-days: 30
   
   release:
-    needs: build
     runs-on: ubuntu-latest
     if: github.event_name == 'release'
     
