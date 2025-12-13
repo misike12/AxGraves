@@ -92,12 +92,12 @@
             <version>1.21.3-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <!-- Updated axapi to version 1.6.0 for Minecraft 1.21.11 compatibility
-             This version includes fixes for SharedConstants.c() method removal -->
+        <!-- Using axapi version 1.4.813 (latest available version)
+             Note: Version 1.6.0 with MC 1.21.11 compatibility is not yet published -->
         <dependency>
             <groupId>com.artillexstudios.axapi</groupId>
             <artifactId>axapi</artifactId>
-            <version>1.6.0</version>
+            <version>1.4.813</version>
             <scope>compile</scope>
             <classifier>all</classifier>
         </dependency>
