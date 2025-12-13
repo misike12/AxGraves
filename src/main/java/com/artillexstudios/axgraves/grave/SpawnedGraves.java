@@ -84,25 +84,38 @@ public class SpawnedGraves {
         try (FileReader fw = new FileReader(file)) {
             array = gson.fromJson(fw, JsonArray.class);
         } catch (Exception ex) {
+            Bukkit.getLogger().info("[AxGraves] No saved graves to load (this is normal on first run)");
             return;
         }
         file.delete();
         if (array == null) return;
 
-        try {
-            for (JsonElement el : array) {
+        int loaded = 0;
+        int failed = 0;
+
+        for (JsonElement el : array) {
+            try {
                 JsonObject obj = el.getAsJsonObject();
                 Location location = Serializers.LOCATION.deserialize(obj.get("location").getAsString());
-                if (location == null || location.getWorld() == null) continue;
+                if (location == null || location.getWorld() == null) {
+                    failed++;
+                    Bukkit.getLogger().warning("[AxGraves] Skipped grave with invalid location or world not loaded");
+                    continue;
+                }
                 OfflinePlayer owner = Bukkit.getOfflinePlayer(UUID.fromString(obj.get("owner").getAsString()));
                 String itStr = obj.get("items").getAsString();
                 ItemStack[] items = Serializers.ITEM_ARRAY.deserialize(Base64.getDecoder().decode(itStr));
                 int xp = obj.get("xp").getAsInt();
                 long date = obj.get("date").getAsLong();
                 addGrave(new Grave(location, owner, Arrays.asList(items), xp, date));
+                loaded++;
+            } catch (Exception ex) {
+                failed++;
+                Bukkit.getLogger().warning("[AxGraves] Failed to load a grave: " + ex.getMessage());
+                // Continue loading other graves even if one fails
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
         }
+
+        Bukkit.getLogger().info("[AxGraves] Loaded " + loaded + " grave(s)" + (failed > 0 ? " (" + failed + " failed)" : ""));
     }
 }
