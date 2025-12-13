@@ -44,7 +44,8 @@ mvn clean package -o
 
 If axapi 1.6.0 is not yet available, you may need to:
 1. Contact Artillex Studios for the updated version
-2. Or temporarily use version 1.4.803 (but this will not fix MC 1.21.11 compatibility)
+2. Or temporarily use version 1.4.813 (available at https://repo.artillex-studios.com/#/releases/com/artillexstudios/axapi/api/axapi/1.4.813)
+   - Note: This will not fix MC 1.21.11 compatibility
 
 ### spigot-api 1.21.3-R0.1-SNAPSHOT
 - **Purpose**: Minecraft server API
@@ -67,9 +68,9 @@ If axapi 1.6.0 is not yet available, you may need to:
 
 **Solutions**:
 1. Check with Artillex Studios if 1.6.0 is available
-2. Try alternative versions: 1.5.x, 1.6.x series
+2. Try alternative versions: 1.4.813 (confirmed available), 1.5.x, 1.6.x series
 3. Check the repository for available versions:
-   - Browse: https://repo.artillex-studios.com/releases/com/artillexstudios/axapi/axapi/
+   - Browse: https://repo.artillex-studios.com/#/releases/com/artillexstudios/axapi/api/axapi/
 
 ### Issue: "spigot-api 1.21.3 not found"  
 **Cause**: The specific version may not be available yet

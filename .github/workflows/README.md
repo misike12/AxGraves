@@ -140,7 +140,9 @@ Could not find artifact com.artillexstudios.axapi:axapi:jar:all:1.6.0
 
 **Workarounds:**
 1. **Wait for release**: The Artillex Studios team needs to publish axapi 1.6.0 to their repository
-2. **Use fallback version**: Temporarily modify `pom.xml` to use version 1.4.803 (note: this won't fix Minecraft 1.21.11 compatibility)
+2. **Use fallback version**: Temporarily modify `pom.xml` to use version 1.4.813 (note: this won't fix Minecraft 1.21.11 compatibility)
+   - Available at: https://repo.artillex-studios.com/#/releases/com/artillexstudios/axapi/api/axapi/1.4.813
+   - Change line 100 in `pom.xml`: `<version>1.4.813</version>`
 3. **Local build**: If you have the axapi 1.6.0 JAR, you can install it to your local Maven repository:
    ```bash
    mvn install:install-file -Dfile=axapi-1.6.0-all.jar \
