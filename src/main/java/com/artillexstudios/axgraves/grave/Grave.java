@@ -90,23 +90,34 @@ public class Grave {
         }
         items.forEach(gui::addItem);
 
-        this.entity = NMSHandlers.getNmsHandler().createEntity(EntityType.ARMOR_STAND, location.clone().add(0, 1 + CONFIG.getFloat("head-height", -1.2f), 0));
-        entity.setItem(EquipmentSlot.HELMET, WrappedItemStack.wrap(Utils.getPlayerHead(offlinePlayer)));
-        final ArmorStandMeta meta = (ArmorStandMeta) entity.meta();
-        meta.small(true);
-        meta.invisible(true);
-        meta.setNoBasePlate(false);
-        entity.spawn();
+        // Create packet entity with error handling for NMS compatibility
+        PacketEntity tempEntity = null;
+        try {
+            if (NMSHandlers.getNmsHandler() != null) {
+                tempEntity = NMSHandlers.getNmsHandler().createEntity(EntityType.ARMOR_STAND, location.clone().add(0, 1 + CONFIG.getFloat("head-height", -1.2f), 0));
+                tempEntity.setItem(EquipmentSlot.HELMET, WrappedItemStack.wrap(Utils.getPlayerHead(offlinePlayer)));
+                final ArmorStandMeta meta = (ArmorStandMeta) tempEntity.meta();
+                meta.small(true);
+                meta.invisible(true);
+                meta.setNoBasePlate(false);
+                tempEntity.spawn();
 
-        if (CONFIG.getBoolean("rotate-head-360", true)) {
-            entity.location().setYaw(location.getYaw());
-            entity.teleport(entity.location());
-        } else {
-            entity.location().setYaw(LocationUtils.getNearestDirection(location.getYaw()));
-            entity.teleport(entity.location());
+                if (CONFIG.getBoolean("rotate-head-360", true)) {
+                    tempEntity.location().setYaw(location.getYaw());
+                    tempEntity.teleport(tempEntity.location());
+                } else {
+                    tempEntity.location().setYaw(LocationUtils.getNearestDirection(location.getYaw()));
+                    tempEntity.teleport(tempEntity.location());
+                }
+
+                tempEntity.onInteract(event -> Scheduler.get().run(task -> interact(event.getPlayer(), event.getHand())));
+            }
+        } catch (Exception e) {
+            Bukkit.getLogger().warning("[AxGraves] Failed to create packet entity for grave at " + location + ": " + e.getMessage());
+            Bukkit.getLogger().warning("[AxGraves] This may be due to NMS compatibility issues. Grave will be created without visual representation.");
+            e.printStackTrace();
         }
-
-        entity.onInteract(event -> Scheduler.get().run(task -> interact(event.getPlayer(), event.getHand())));
+        this.entity = tempEntity;
 
         updateHologram();
     }
@@ -123,9 +134,14 @@ public class Grave {
             return;
         }
 
-        if (CONFIG.getBoolean("auto-rotation.enabled", false)) {
-            entity.location().setYaw(entity.location().getYaw() + CONFIG.getFloat("auto-rotation.speed", 10f));
-            entity.teleport(entity.location());
+        // Only update rotation if entity exists (may be null if NMS failed)
+        if (entity != null && CONFIG.getBoolean("auto-rotation.enabled", false)) {
+            try {
+                entity.location().setYaw(entity.location().getYaw() + CONFIG.getFloat("auto-rotation.speed", 10f));
+                entity.teleport(entity.location());
+            } catch (Exception e) {
+                Bukkit.getLogger().warning("[AxGraves] Failed to update grave rotation: " + e.getMessage());
+            }
         }
     }
 
@@ -199,28 +215,33 @@ public class Grave {
     }
 
     public void updateHologram() {
-        if (hologram != null) hologram.remove();
+        try {
+            if (hologram != null) hologram.remove();
 
-        List<String> lines = LANG.getStringList("hologram");
+            List<String> lines = LANG.getStringList("hologram");
 
-        double hologramHeight = CONFIG.getFloat("hologram-height", 0.75f) + 1;
-        hologram = new Hologram(location.clone().add(0, getNewHeight(hologramHeight, lines.size(), 0.3f), 0));
+            double hologramHeight = CONFIG.getFloat("hologram-height", 0.75f) + 1;
+            hologram = new Hologram(location.clone().add(0, getNewHeight(hologramHeight, lines.size(), 0.3f), 0));
 
-        HologramPage<String, HologramType<String>> page = hologram.createPage(HologramTypes.TEXT);
-        page.getParameters().withParameter(Grave.class, this);
+            HologramPage<String, HologramType<String>> page = hologram.createPage(HologramTypes.TEXT);
+            page.getParameters().withParameter(Grave.class, this);
 
-        Section section = CONFIG.getSection("holograms");
-        page.setEntityMetaHandler(m -> {
-            TextDisplayMeta meta = (TextDisplayMeta) m;
-            meta.seeThrough(section.getBoolean("see-through"));
-            meta.alignment(TextDisplayMeta.Alignment.valueOf(section.getString("alignment").toUpperCase()));
-            meta.backgroundColor(Integer.parseInt(section.getString("background-color"), 16));
-            meta.lineWidth(1000);
-            meta.billboardConstrain(DisplayMeta.BillboardConstrain.valueOf(section.getString("billboard").toUpperCase()));
-        });
+            Section section = CONFIG.getSection("holograms");
+            page.setEntityMetaHandler(m -> {
+                TextDisplayMeta meta = (TextDisplayMeta) m;
+                meta.seeThrough(section.getBoolean("see-through"));
+                meta.alignment(TextDisplayMeta.Alignment.valueOf(section.getString("alignment").toUpperCase()));
+                meta.backgroundColor(Integer.parseInt(section.getString("background-color"), 16));
+                meta.lineWidth(1000);
+                meta.billboardConstrain(DisplayMeta.BillboardConstrain.valueOf(section.getString("billboard").toUpperCase()));
+            });
 
-        page.setContent(String.join("<reset><br>", lines));
-        page.spawn();
+            page.setContent(String.join("<reset><br>", lines));
+            page.spawn();
+        } catch (Exception e) {
+            Bukkit.getLogger().warning("[AxGraves] Failed to update hologram for grave at " + location + ": " + e.getMessage());
+            Bukkit.getLogger().warning("[AxGraves] This may be due to NMS compatibility issues.");
+        }
     }
 
     private static double getNewHeight(double y, int lines, float lineHeight) {
