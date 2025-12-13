@@ -127,6 +127,29 @@ The release job runs automatically when:
 - `pom.xml` syntax errors
 - Missing dependencies in external repositories
 
+### Known Issue: AxAPI 1.6.0 Not Available
+
+**Error message:**
+```
+Could not find artifact com.artillexstudios.axapi:axapi:jar:all:1.6.0
+```
+
+**Cause:** The axapi 1.6.0 artifact with the `all` classifier is not yet published to the Artillex Studios repository. This is a dependency issue with the project, not the workflow itself.
+
+**Status:** This is a known issue documented in [BUILD_INSTRUCTIONS.md](../../BUILD_INSTRUCTIONS.md#issue-axapi-version-160-not-found). The workflow will fail until this dependency becomes available.
+
+**Workarounds:**
+1. **Wait for release**: The Artillex Studios team needs to publish axapi 1.6.0 to their repository
+2. **Use fallback version**: Temporarily modify `pom.xml` to use version 1.4.803 (note: this won't fix Minecraft 1.21.11 compatibility)
+3. **Local build**: If you have the axapi 1.6.0 JAR, you can install it to your local Maven repository:
+   ```bash
+   mvn install:install-file -Dfile=axapi-1.6.0-all.jar \
+     -DgroupId=com.artillexstudios.axapi -DartifactId=axapi \
+     -Dversion=1.6.0 -Dclassifier=all -Dpackaging=jar
+   ```
+
+**Note:** The workflow is configured correctly and will work once the dependency becomes available.
+
 ### Artifact Not Found
 
 **Possible causes:**
