@@ -83,8 +83,12 @@ public class SpawnedGraves {
         File file = new File(AxGraves.getInstance().getDataFolder(), "data.json");
         try (FileReader fw = new FileReader(file)) {
             array = gson.fromJson(fw, JsonArray.class);
-        } catch (Exception ex) {
+        } catch (java.io.FileNotFoundException ex) {
             Bukkit.getLogger().info("[AxGraves] No saved graves to load (this is normal on first run)");
+            return;
+        } catch (Exception ex) {
+            Bukkit.getLogger().severe("[AxGraves] Error reading graves data file: " + ex.getMessage());
+            ex.printStackTrace();
             return;
         }
         file.delete();

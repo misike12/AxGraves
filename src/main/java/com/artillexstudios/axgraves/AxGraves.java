@@ -8,6 +8,7 @@ import com.artillexstudios.axapi.libs.boostedyaml.settings.general.GeneralSettin
 import com.artillexstudios.axapi.libs.boostedyaml.settings.loader.LoaderSettings;
 import com.artillexstudios.axapi.libs.boostedyaml.settings.updater.UpdaterSettings;
 import com.artillexstudios.axapi.metrics.AxMetrics;
+import com.artillexstudios.axapi.nms.NMSHandlers;
 import com.artillexstudios.axapi.utils.MessageUtils;
 import com.artillexstudios.axapi.utils.featureflags.FeatureFlags;
 import com.artillexstudios.axgraves.commands.CommandManager;
@@ -56,16 +57,18 @@ public final class AxGraves extends AxPlugin {
 
         // Verify NMS handlers are properly initialized
         try {
-            com.artillexstudios.axapi.nms.NMSHandlers.getNmsHandler();
+            NMSHandlers.getNmsHandler();
             getLogger().info("NMS handlers initialized successfully");
         } catch (Exception e) {
-            getLogger().severe("═══════════════════════════════════════════════════════════════");
-            getLogger().severe("CRITICAL ERROR: Failed to initialize NMS handlers!");
-            getLogger().severe("This usually indicates compatibility issues with your Minecraft version.");
-            getLogger().severe("Current server version: " + getServer().getVersion());
-            getLogger().severe("Please ensure you are using a compatible version of AxGraves.");
-            getLogger().severe("Error details: " + e.getMessage());
-            getLogger().severe("═══════════════════════════════════════════════════════════════");
+            StringBuilder errorMsg = new StringBuilder();
+            errorMsg.append("═══════════════════════════════════════════════════════════════").append(System.lineSeparator());
+            errorMsg.append("CRITICAL ERROR: Failed to initialize NMS handlers!").append(System.lineSeparator());
+            errorMsg.append("This usually indicates compatibility issues with your Minecraft version.").append(System.lineSeparator());
+            errorMsg.append("Current server version: ").append(getServer().getVersion()).append(System.lineSeparator());
+            errorMsg.append("Please ensure you are using a compatible version of AxGraves.").append(System.lineSeparator());
+            errorMsg.append("Error details: ").append(e.getMessage()).append(System.lineSeparator());
+            errorMsg.append("═══════════════════════════════════════════════════════════════");
+            getLogger().severe(errorMsg.toString());
             e.printStackTrace();
             getLogger().severe("AxGraves will continue to load, but grave functionality may be limited.");
         }

@@ -115,6 +115,7 @@ public class Grave {
         } catch (Exception e) {
             Bukkit.getLogger().warning("[AxGraves] Failed to create packet entity for grave at " + location + ": " + e.getMessage());
             Bukkit.getLogger().warning("[AxGraves] This may be due to NMS compatibility issues. Grave will be created without visual representation.");
+            Bukkit.getLogger().severe("[AxGraves] Stack trace:");
             e.printStackTrace();
         }
         this.entity = tempEntity;
