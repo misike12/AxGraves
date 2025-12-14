@@ -112,11 +112,11 @@ public class Grave {
 
                 tempEntity.onInteract(event -> Scheduler.get().run(task -> interact(event.getPlayer(), event.getHand())));
             }
-        } catch (Exception e) {
+        } catch (Throwable e) {
             Bukkit.getLogger().warning("[AxGraves] Failed to create packet entity for grave at " + location);
-            Bukkit.getLogger().warning("[AxGraves] Error: " + e.getMessage());
+            Bukkit.getLogger().warning("[AxGraves] Error: " + e.getClass().getSimpleName() + ": " + (e.getMessage() != null ? e.getMessage() : "No message"));
             Bukkit.getLogger().warning("[AxGraves] This may be due to NMS compatibility issues. Grave will be created without visual representation.");
-            e.printStackTrace();
+            Bukkit.getLogger().warning("[AxGraves] Core functionality (inventory, XP, GUI) will still work.");
         }
         this.entity = tempEntity;
 
@@ -239,8 +239,8 @@ public class Grave {
 
             page.setContent(String.join("<reset><br>", lines));
             page.spawn();
-        } catch (Exception e) {
-            Bukkit.getLogger().warning("[AxGraves] Failed to update hologram for grave at " + location + ": " + e.getMessage());
+        } catch (Throwable e) {
+            Bukkit.getLogger().warning("[AxGraves] Failed to update hologram for grave at " + location + ": " + e.getClass().getSimpleName() + ": " + (e.getMessage() != null ? e.getMessage() : "No message"));
             Bukkit.getLogger().warning("[AxGraves] This may be due to NMS compatibility issues.");
         }
     }

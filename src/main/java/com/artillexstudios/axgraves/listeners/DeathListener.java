@@ -69,9 +69,9 @@ public class DeathListener implements Listener {
 
             final GraveSpawnEvent graveSpawnEvent = new GraveSpawnEvent(player, grave);
             Bukkit.getPluginManager().callEvent(graveSpawnEvent);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             Bukkit.getLogger().severe("[AxGraves] Critical error creating grave for player " + event.getEntity().getName());
-            Bukkit.getLogger().severe("[AxGraves] Error: " + e.getMessage());
+            Bukkit.getLogger().severe("[AxGraves] Error: " + e.getClass().getSimpleName() + ": " + (e.getMessage() != null ? e.getMessage() : "No message"));
             e.printStackTrace();
             // Don't clear drops or XP - let vanilla death handling take over
         }

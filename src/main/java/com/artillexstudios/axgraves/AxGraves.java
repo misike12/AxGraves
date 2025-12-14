@@ -59,18 +59,19 @@ public final class AxGraves extends AxPlugin {
         try {
             NMSHandlers.getNmsHandler();
             getLogger().info("NMS handlers initialized successfully");
-        } catch (Exception e) {
+        } catch (Throwable e) {
             StringBuilder errorMsg = new StringBuilder();
             errorMsg.append("═══════════════════════════════════════════════════════════════").append(System.lineSeparator());
             errorMsg.append("CRITICAL ERROR: Failed to initialize NMS handlers!").append(System.lineSeparator());
             errorMsg.append("This usually indicates compatibility issues with your Minecraft version.").append(System.lineSeparator());
             errorMsg.append("Current server version: ").append(getServer().getVersion()).append(System.lineSeparator());
             errorMsg.append("Please ensure you are using a compatible version of AxGraves.").append(System.lineSeparator());
-            errorMsg.append("Error details: ").append(e.getMessage()).append(System.lineSeparator());
+            errorMsg.append("Error details: ").append(e.getClass().getSimpleName()).append(": ").append(e.getMessage() != null ? e.getMessage() : "No message").append(System.lineSeparator());
             errorMsg.append("═══════════════════════════════════════════════════════════════");
             getLogger().severe(errorMsg.toString());
             e.printStackTrace();
             getLogger().severe("AxGraves will continue to load, but grave functionality may be limited.");
+            getLogger().severe("NOTE: Graves will still function (inventory, XP) but visual elements (holograms, armor stands) may not work.");
         }
 
         // Register event listeners
