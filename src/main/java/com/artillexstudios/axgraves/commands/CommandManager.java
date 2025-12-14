@@ -30,6 +30,11 @@ public class CommandManager {
             handler.register(Orphans.path(aliases.toArray(String[]::new)).handler(new Commands()));
         }
 
-        handler.registerBrigadier();
+        try {
+            handler.registerBrigadier();
+        } catch (Throwable throwable) {
+            AxGraves.getInstance().getLogger().warning("Brigadier registration is unavailable on this server version; using Bukkit command handling only. Reason: " + throwable.getMessage());
+            throwable.printStackTrace();
+        }
     }
 }
