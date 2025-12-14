@@ -66,7 +66,7 @@ public final class AxGraves extends AxPlugin {
             errorMsg.append("This usually indicates compatibility issues with your Minecraft version.").append(System.lineSeparator());
             errorMsg.append("Current server version: ").append(getServer().getVersion()).append(System.lineSeparator());
             errorMsg.append("Please ensure you are using a compatible version of AxGraves.").append(System.lineSeparator());
-            errorMsg.append("Error details: ").append(e.getClass().getSimpleName()).append(": ").append(e.getMessage()).append(System.lineSeparator());
+            errorMsg.append("Error details: ").append(e.getClass().getSimpleName()).append(": ").append(e.getMessage() != null ? e.getMessage() : "No message").append(System.lineSeparator());
             errorMsg.append("═══════════════════════════════════════════════════════════════");
             getLogger().severe(errorMsg.toString());
             e.printStackTrace();
