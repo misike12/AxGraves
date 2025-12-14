@@ -4,6 +4,13 @@ main: com.artillexstudios.axgraves.AxGraves
 api-version: '1.21'
 folia-supported: true
 
+commands:
+  axgraves:
+    description: Main command for AxGraves
+    usage: /axgraves
+    aliases: [axgrave, graves, grave]
+    permission: axgraves.help
+
 permissions:
   axgraves.help:
     default: true
