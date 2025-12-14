@@ -179,7 +179,7 @@ Even if NMS initialization fails:
 **Hologram Issues (Now Handled Gracefully):**
 ```
 [AxGraves] Failed to update hologram for grave at [location]: ExceptionInInitializerError: [message]
-[AxGaves] This may be due to NMS compatibility issues.
+[AxGraves] This may be due to NMS compatibility issues.
 ```
 
 ### How to Verify the Fix Works
